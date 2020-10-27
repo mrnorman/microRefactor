@@ -97,7 +97,7 @@ In this code, all looping is now inside the subroutines.
 
 For climate codes, which must run at 2,000 times realtime, you cannot afford to loop only over the horizontal indices. This is because there are only 100s of horizontal threads available per GPU when the code is significantly strong scaled so that it runs faster. Increasingly, weather and medium range codes are finding themselves in this boat as well. In these cases, threading over the vertical dimension as well will expose 50-100x more parallelism, which will use GPUs much more effectively. 
 
-However, in these cases, you'll often uncover "race conditions." They are by far the most common in the vertical dimension. Race conditions are situations where two parallel threads might read and write to the same location (these need "atomic" or "reduction" instructions) at the same time or when the threads have to execute in a certain order (these are called "prefix sums" or "scans").
+However, in these cases, you'll often uncover "race conditions." They are by far the most common in the vertical dimension. Race conditions are situations where two parallel threads might read and write to the same location at the same time (these need "atomic" or "reduction" instructions) or when the threads have to execute in a certain order for correctness (these are called "prefix sums" or "scans").
 
 You can identify the need for atomics or reductions when a variable on the left of an equals sign has fewer dimensions than you have parallel loops.
 
@@ -181,5 +181,5 @@ If you want more information on this, please see the following article:
 
 ## Did you get all that?
 
-It was kind of a blur wasn't it? The exmaples weren't that clear. That's the goal of microRefactor. To provide a self-contained guided example of what the refactoring process will often look like. This is greatly simplified and arguably somewhat contrived, but you also probably don't want to learn from a 20K line of code example either. I hope you find this repo helpful.
+It was kind of a blur wasn't it? The exmaples weren't that clear. Hopefully microRefactor will make this more clear with hands on experience. The example used in here is greatly simplified, but you also probably don't want to learn from a 20K line of code example either. I hope you find this repo helpful.
 
